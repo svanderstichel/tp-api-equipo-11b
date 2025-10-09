@@ -16,6 +16,16 @@ namespace api_productos.Controllers
         {
             return new string[] { "value1", "value2" };
         }
+        /*public IEnumerable<Articulo> Get()
+        {
+            ListarArticuloNegocio articulo = new ListarArticuloNegocio();
+
+
+
+            return articulo.ListarArticulos();
+
+        }*/
+        
 
         // GET: api/Producto/5
         public string Get(int id)
@@ -29,6 +39,22 @@ namespace api_productos.Controllers
         }
 
         // PUT: api/Producto/5
+
+        /*public void Put(int id, [FromBody] ArticuloDto art)
+        {
+            ModificarArticuloNegocio negocio = new ModificarArticuloNegocio();
+            Articulo modifica = new Articulo();
+            modifica.Nombre = art.Nombre;
+            modifica.Descripcion = art.Descripcion;
+            modifica.imagen = art.imagen;
+            modifica.Precio = art.Precio;
+            modifica.Categoria = new Categoria { IdCategoria = art.idCategoria };
+            modifica.Marca = new Marca { IdMarca = art.idMarca };
+            modifica.CodigoArticulo = art.CodigoArticulo;
+            modifica.IdArticulo = id;
+            negocio.Modificar(modifica);
+
+        }*/
         public void Put(int id, [FromBody]string value)
         {
         }
