@@ -13,6 +13,11 @@ namespace negocio
         public SqlCommand comando; // me permite hacer Acciones luego de conectarme
         public SqlDataReader lector;// Guardo el set de datos que tomo de la BD
 
+        public SqlDataReader Lector // lee el lector desde el exterior
+        { 
+            get { return lector; }
+        
+        }
         // método para realizar la conexion a la BD
         public AccesoDatos()
         {
