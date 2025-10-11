@@ -6,25 +6,23 @@ using System.Net.Http;
 using System.Web.Http;
 using dominio;
 using negocio;
+using System.Web.UI.WebControls.WebParts;
 
 namespace api_productos.Controllers
 {
     public class ProductoController : ApiController
     {
         // GET: api/Producto
-        public IEnumerable<string> Get()
+       /*public IEnumerable<string> Get()
         {
             return new string[] { "value1", "value2" };
-        }
-        /*public IEnumerable<Articulo> Get()
+        }*/
+        public IEnumerable<Articulo> Get()
         {
-            ListarArticuloNegocio articulo = new ListarArticuloNegocio();
-
-
-
+            ArticuloNegocio articulo = new ArticuloNegocio();
             return articulo.ListarArticulos();
 
-        }*/
+        }
         
 
         // GET: api/Producto/5
