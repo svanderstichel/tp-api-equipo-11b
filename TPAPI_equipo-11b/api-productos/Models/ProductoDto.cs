@@ -12,7 +12,6 @@ namespace api_productos.Models
         public string Descripcion { get; set; }
         public int idMarca { get; set; }
         public int idCategoria { get; set; }
-        public List<string> ListaImagenes { get; set; }
         public decimal Precio { get; set; }
     }
 }

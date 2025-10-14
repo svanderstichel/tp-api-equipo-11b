@@ -33,7 +33,7 @@ namespace api_productos.Controllers
         }
 
         // POST: api/Producto
-        public void Post([FromBody]AltaProductoDto producto)
+        public void Post([FromBody]ProductoDto producto)
         {
             Articulo aux = new Articulo();
             
@@ -49,7 +49,7 @@ namespace api_productos.Controllers
         }
 
         // POST: api/Producto/id
-        public void Post(int id, [FromBody] CargarImagenesDto imagenes)
+        public void Post(int id, [FromBody] ImagenesDto imagenes)
         {
             Articulo aux = new Articulo();
             
