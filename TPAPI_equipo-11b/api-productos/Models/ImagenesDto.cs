@@ -7,7 +7,7 @@ using System.Web;
 
 namespace api_productos.Models
 {
-    public class CargarImagenesDto
+    public class ImagenesDto
     {
         public List<string> ListaImagenes { get; set; }
     }
