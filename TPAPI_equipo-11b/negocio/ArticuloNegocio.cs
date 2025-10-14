@@ -18,14 +18,14 @@ namespace negocio
         public List<Articulo> ListarArticulos()
         {
             List<Articulo> listaArticulos = new List<Articulo>();
-            AccesoDatos datos = new AccesoDatos();  
+            AccesoDatos datos = new AccesoDatos();
 
 
             try
             {
-                datos.setearConsulta ("SELECT A.Id, A.Codigo as Codigo, \r\nA.Nombre, \r\nA.Descripcion, \r\nM.Descripcion AS Marca, \r\nC.Descripcion AS Categoria, \r\nA.Precio, M.Id as IdMarca, C.Id as IdCategoria \r\nFROM ARTICULOS A\r\nLEFT JOIN MARCAS M ON A.IdMarca = M.Id\r\nLEFT JOIN CATEGORIAS C ON A.idCategoria = C.Id");
+                datos.setearConsulta("SELECT A.Id, A.Codigo as Codigo, \r\nA.Nombre, \r\nA.Descripcion, \r\nM.Descripcion AS Marca, \r\nC.Descripcion AS Categoria, \r\nA.Precio, M.Id as IdMarca, C.Id as IdCategoria \r\nFROM ARTICULOS A\r\nLEFT JOIN MARCAS M ON A.IdMarca = M.Id\r\nLEFT JOIN CATEGORIAS C ON A.idCategoria = C.Id");
                 datos.ejercutarLectura();
-                                
+
                 while (datos.lector.Read())
                 {
                     Articulo aux = new Articulo();
@@ -59,6 +59,57 @@ namespace negocio
             }
 
 
+        }
+        public void AltaArticulo(Articulo articulo)
+        {
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearParametro("@Codigo", articulo.CodigoArticulo);
+                datos.setearParametro("@Nombre", articulo.Nombre);
+                datos.setearParametro("@Descripcion", articulo.Descripcion);
+                datos.setearParametro("@Precio", articulo.Precio);
+                datos.setearParametro("@IdMarca", articulo.Marca.IdMarca);
+                datos.setearParametro("@IdCategoria", articulo.Categoria.IdCategoria);
+                datos.setearConsulta("INSERT INTO ARTICULOS (Codigo, Nombre, Descripcion, Precio, IdMarca, IdCategoria) VALUES (@Codigo, @Nombre, @Descripcion, @Precio, @IdMarca, @IdCategoria)");
+                datos.ejecutarAccion();
+            }
+            
+            catch (Exception)
+            {
+                throw;
+            }
+
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+        public void CargarImagenes(Articulo articulo)
+        {
+            foreach (var imagen in articulo.ListaImagenes)
+            {
+                AccesoDatos datos = new AccesoDatos();
+
+                try
+                {
+                    datos.setearParametro("@IdArticulo", articulo.IdArticulo);
+                    datos.setearParametro("@ImagenUrl", imagen.Url);
+                    datos.setearConsulta("INSERT INTO IMAGENES (IdArticulo, ImagenUrl) VALUES (@IdArticulo, @ImagenUrl)");
+                    datos.ejecutarAccion();
+                }
+
+                catch (Exception)
+                {
+                    throw;
+                }
+
+                finally
+                {
+                    datos.cerrarConexion();
+                }
+            }
         }
     }
 }
