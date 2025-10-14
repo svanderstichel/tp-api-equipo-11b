@@ -7,6 +7,7 @@ using System.Web.Http;
 using dominio;
 using negocio;
 using System.Web.UI.WebControls.WebParts;
+using api_productos.Models;
 
 namespace api_productos.Controllers
 {
@@ -32,8 +33,34 @@ namespace api_productos.Controllers
         }
 
         // POST: api/Producto
-        public void Post([FromBody]string value)
+        public void Post([FromBody]AltaProductoDto producto)
         {
+            Articulo aux = new Articulo();
+            
+            aux.CodigoArticulo = producto.CodigoArticulo;
+            aux.Nombre = producto.Nombre;
+            aux.Descripcion = producto.Descripcion;
+            aux.Precio = producto.Precio;
+            aux.Marca = new Marca() { IdMarca = producto.idMarca };
+            aux.Categoria = new Categoria() { IdCategoria = producto.idCategoria };
+
+            ArticuloNegocio negocio = new ArticuloNegocio();
+            negocio.AltaArticulo(aux);
+        }
+
+        // POST: api/Producto/id
+        public void Post(int id, [FromBody] CargarImagenesDto imagenes)
+        {
+            Articulo aux = new Articulo();
+            
+            aux.IdArticulo = id;
+            aux.ListaImagenes = new List<Imagen>();
+            foreach (var imagen in imagenes.ListaImagenes){
+                aux.ListaImagenes.Add(new Imagen(id,imagen));
+            }
+
+            ArticuloNegocio negocio = new ArticuloNegocio();
+            negocio.CargarImagenes(aux);
         }
 
         // PUT: api/Producto/5
