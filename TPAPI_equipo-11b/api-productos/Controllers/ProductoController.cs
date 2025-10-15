@@ -23,9 +23,13 @@ namespace api_productos.Controllers
         
 
         // GET: api/Producto/5
-        public string Get(int id)
+        public Articulo Get(int id)
         {
-            return "value";
+            //buscar
+            ArticuloNegocio negocio = new ArticuloNegocio();
+            List<Articulo> lista = negocio.ListarArticulos();
+
+            return lista.Find(x => x.IdArticulo == id);
         }
 
         // POST: api/Producto
@@ -83,6 +87,8 @@ namespace api_productos.Controllers
         // DELETE: api/Producto/5
         public void Delete(int id)
         {
+            ArticuloNegocio negocio = new ArticuloNegocio ();
+            negocio.eliminar(id);
         }
     }
 }
