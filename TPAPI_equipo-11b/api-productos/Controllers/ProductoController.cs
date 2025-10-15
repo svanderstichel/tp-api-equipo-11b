@@ -14,11 +14,7 @@ namespace api_productos.Controllers
     public class ProductoController : ApiController
     {
         // GET: api/Producto
-       /*public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }*/
-        public IEnumerable<Articulo> Get()
+       public IEnumerable<Articulo> Get()
         {
             ArticuloNegocio articulo = new ArticuloNegocio();
             return articulo.ListarArticulos();
@@ -52,37 +48,37 @@ namespace api_productos.Controllers
         public void Post(int id, [FromBody] ImagenesDto imagenes)
         {
             Articulo aux = new Articulo();
-            
+
             aux.IdArticulo = id;
             aux.ListaImagenes = new List<Imagen>();
-            foreach (var imagen in imagenes.ListaImagenes){
-                aux.ListaImagenes.Add(new Imagen(id,imagen));
+            foreach (var imagen in imagenes.ListaImagenes)
+            {
+                aux.ListaImagenes.Add(new Imagen(id, imagen));
             }
 
             ArticuloNegocio negocio = new ArticuloNegocio();
             negocio.CargarImagenes(aux);
         }
+        // PUT: api/Producto/id
 
-        // PUT: api/Producto/5
-
-        /*public void Put(int id, [FromBody] ArticuloDto art)
+       public void Put(int id, [FromBody] ProductoDto art)
         {
-            ModificarArticuloNegocio negocio = new ModificarArticuloNegocio();
+            ArticuloNegocio negocio = new ArticuloNegocio();
             Articulo modifica = new Articulo();
+            modifica.CodigoArticulo = art.CodigoArticulo;
             modifica.Nombre = art.Nombre;
             modifica.Descripcion = art.Descripcion;
-            modifica.imagen = art.imagen;
-            modifica.Precio = art.Precio;
-            modifica.Categoria = new Categoria { IdCategoria = art.idCategoria };
             modifica.Marca = new Marca { IdMarca = art.idMarca };
-            modifica.CodigoArticulo = art.CodigoArticulo;
+            modifica.Categoria = new Categoria { IdCategoria = art.idCategoria };
+            modifica.Precio = art.Precio;
+           
+            
+            
             modifica.IdArticulo = id;
-            negocio.Modificar(modifica);
+            negocio.Modificar (modifica);
 
-        }*/
-        public void Put(int id, [FromBody]string value)
-        {
         }
+        
 
         // DELETE: api/Producto/5
         public void Delete(int id)
