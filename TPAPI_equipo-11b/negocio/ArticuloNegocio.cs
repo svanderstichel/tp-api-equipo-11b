@@ -13,7 +13,33 @@ namespace negocio
     public class ArticuloNegocio
     {
 
+        public Articulo Buscar(int id)
+        {
+            Articulo articulo = new Articulo();
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.setearParametro("@id", id);
+                datos.setearConsulta("SELECT Id FROM Articulos WHERE Id = @id");
+                datos.ejercutarLectura();
 
+                while (datos.Lector.Read())
+                {
+                    articulo.IdArticulo = (int)datos.Lector["Id"];
+                }
+
+                return articulo;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+
+        }
 
         public List<Articulo> ListarArticulos()
         {
