@@ -15,10 +15,26 @@ namespace api_productos.Controllers
     public class ProductoController : ApiController
     {
         // GET: api/Producto
-       public IEnumerable<Articulo> Get()
+       public HttpResponseMessage Get()
         {
-                ArticuloNegocio articulo = new ArticuloNegocio();
-                return articulo.ListarArticulos();
+            try
+            {
+                ArticuloNegocio negocio = new ArticuloNegocio();
+                List<Articulo> lista = negocio.ListarArticulos();
+
+                if (lista == null || lista.Count == 0)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "No hay articulos cargados.");
+                }
+                return Request.CreateResponse(HttpStatusCode.OK, lista);
+
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, "Error al obtener la lista de productos.");
+            }
+
+
         }
         
 
@@ -34,7 +50,7 @@ namespace api_productos.Controllers
                 Articulo articulo = lista.Find(x => x.IdArticulo == id);
 
                 if (articulo == null)
-                    return Request.CreateResponse(HttpStatusCode.BadRequest, "El articulo no existe");
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "El articulo no existe");
 
                 return Request.CreateResponse(HttpStatusCode.OK, articulo);
             }
@@ -157,7 +173,7 @@ namespace api_productos.Controllers
                 Articulo articulo = lista.Find(x => x.IdArticulo == id);
 
                 if (articulo == null)
-                    return Request.CreateResponse(HttpStatusCode.BadRequest, "El articulo no existe.");
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "El articulo no existe.");
 
                 negocio.eliminar(id);
 
