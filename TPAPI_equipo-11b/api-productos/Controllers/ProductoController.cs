@@ -1,13 +1,14 @@
-﻿using System;
+﻿using api_productos.Models;
+using dominio;
+using negocio;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using dominio;
-using negocio;
 using System.Web.UI.WebControls.WebParts;
-using api_productos.Models;
 
 namespace api_productos.Controllers
 {
@@ -23,13 +24,25 @@ namespace api_productos.Controllers
         
 
         // GET: api/Producto/5
-        public Articulo Get(int id)
+        public HttpResponseMessage Get(int id)
         {
-            //buscar
-            ArticuloNegocio negocio = new ArticuloNegocio();
-            List<Articulo> lista = negocio.ListarArticulos();
+            try
+            {
+                //buscar
+                ArticuloNegocio negocio = new ArticuloNegocio();
+                List<Articulo> lista = negocio.ListarArticulos();
 
-            return lista.Find(x => x.IdArticulo == id);
+                Articulo articulo = lista.Find(x => x.IdArticulo == id);
+
+                if (articulo == null)
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "El articulo no existe");
+
+                return Request.CreateResponse(HttpStatusCode.OK, articulo);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, "Error al buscar el articulo.");
+            }
         }
 
         // POST: api/Producto
@@ -85,10 +98,26 @@ namespace api_productos.Controllers
         
 
         // DELETE: api/Producto/5
-        public void Delete(int id)
+        public HttpResponseMessage Delete(int id)
         {
-            ArticuloNegocio negocio = new ArticuloNegocio ();
-            negocio.eliminar(id);
+            try
+            {
+                ArticuloNegocio negocio = new ArticuloNegocio();
+                List<Articulo> lista = negocio.ListarArticulos();
+
+                Articulo articulo = lista.Find(x => x.IdArticulo == id);
+
+                if (articulo == null)
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "El articulo no existe.");
+
+                negocio.eliminar(id);
+
+                return Request.CreateResponse(HttpStatusCode.OK, "Articulo eliminado exitosamente.");
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, "Ocurrio un error inesperado");
+            }
         }
     }
 }
