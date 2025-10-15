@@ -158,6 +158,38 @@ namespace negocio
                 datos.cerrarConexion();
             }
         }
+
+        public void eliminar(int id)
+        {
+            try
+            {
+                AccesoDatos datos = new AccesoDatos();
+                datos.setearConsulta("delete from articulos where Id = @id");
+                datos.setearParametro("@id", id);
+                datos.ejecutarAccion();
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public void eliminarLogico(int id, bool activo = false)
+        {
+            try
+            {
+                AccesoDatos datos = new AccesoDatos();
+                datos.setearConsulta("update Articulos set Activo = @activo Where IdArticulo = @id");
+                datos.setearParametro("@id", id);
+                datos.setearParametro("@activo", activo);
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 
 
